@@ -6,20 +6,31 @@ import 'package:flutter/material.dart';
 class RestaurantCard extends StatelessWidget {
   // 이미지
   final Widget image;
+
   // 레스토랑 이름
   final String name;
+
   // 레스토랑 태그
   final List<String> tags;
+
   // 평점 갯수
   final int ratingsCount;
+
   // 배송 걸리는 시간
   final int deliveryTime;
+
   // 배송 비용
   final int deliveryFee;
+
   // 평균 평점
   final double ratings;
+
   // 상세 카드 여부
   final bool isDetail;
+
+  // Hero 위젯 태그
+  final String? heroKey;
+
 // 상세 내용
   final String? detail;
 
@@ -33,6 +44,7 @@ class RestaurantCard extends StatelessWidget {
     required this.ratings,
     this.isDetail = false,
     this.detail,
+    this.heroKey,
     Key? key,
   }) : super(key: key);
 
@@ -45,6 +57,7 @@ class RestaurantCard extends StatelessWidget {
         model.thumbUrl,
         fit: BoxFit.cover,
       ),
+      heroKey: model.id,
       name: model.name,
       tags: model.tags,
       ratingsCount: model.ratingsCount,
@@ -63,8 +76,17 @@ class RestaurantCard extends StatelessWidget {
         children: [
           if (isDetail) image,
           if (!isDetail)
+            if(heroKey !=null)
+            Hero(
+              tag: ObjectKey(heroKey),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(isDetail ? 0 : 12.0),
+                child: image,
+              ),
+            ),
+          if(heroKey == null)
             ClipRRect(
-              borderRadius: BorderRadius.circular(12.0),
+              borderRadius: BorderRadius.circular(isDetail ? 0 : 12.0),
               child: image,
             ),
           const SizedBox(
