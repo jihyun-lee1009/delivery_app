@@ -12,7 +12,7 @@ class RatingModel implements IModelWithId {
   final int rating;
   final String content;
   @JsonKey(
-    fromJson: DataUtils.listPathToUrls,
+    fromJson: DataUtils.listPathsToUrls,
   )
   final List<String> imgUrls;
 
