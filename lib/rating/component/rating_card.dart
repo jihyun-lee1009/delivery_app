@@ -1,5 +1,6 @@
 import 'package:actual/common/const/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class RatingCard extends StatelessWidget {
   // NetworkImage, AssetImage
@@ -32,10 +33,24 @@ class RatingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _Header(avatarImage: avatarImage, email: email, rating: rating,),
-        SizedBox(width: 8.0,),
-        _Body(content: content,),
-        _Images(),
+        _Header(
+          avatarImage: avatarImage,
+          email: email,
+          rating: rating,
+        ),
+        SizedBox(
+          width: 8.0,
+        ),
+        _Body(
+          content: content,
+        ),
+        if (images.length > 0)
+          SizedBox(
+            height: 100,
+            child: _Images(
+              images: images,
+            ),
+          ),
       ],
     );
   }
@@ -61,7 +76,9 @@ class _Header extends StatelessWidget {
           radius: 12.0,
           backgroundImage: avatarImage,
         ),
-        SizedBox(width: 8.0,),
+        SizedBox(
+          width: 8.0,
+        ),
         Expanded(
           child: Text(
             email,
@@ -76,7 +93,7 @@ class _Header extends StatelessWidget {
         ...List.generate(
           5,
           (index) => Icon(
-            index< rating ? Icons.star :Icons.star_border_outlined,
+            index < rating ? Icons.star : Icons.star_border_outlined,
             color: PRIMARY_COLOR,
           ),
         ),
@@ -87,9 +104,8 @@ class _Header extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final String content;
-  const _Body({
-    required this.content,
-    Key? key}) : super(key: key);
+
+  const _Body({required this.content, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +114,10 @@ class _Body extends StatelessWidget {
         Flexible(
           child: Text(
             content,
-            style: TextStyle(color: BODY_TEXT_COLOR,fontSize: 14.0,),
+            style: TextStyle(
+              color: BODY_TEXT_COLOR,
+              fontSize: 14.0,
+            ),
           ),
         ),
       ],
@@ -107,10 +126,27 @@ class _Body extends StatelessWidget {
 }
 
 class _Images extends StatelessWidget {
-  const _Images({Key? key}) : super(key: key);
+  final List<Image> images;
+
+  const _Images({required this.images, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: images
+          .mapIndexed(
+            (index, e) => Padding(
+              padding: EdgeInsets.only(
+                right: index == images.length - 1 ? 0 : 16.0,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: e,
+              ),
+            ),
+          )
+          .toList(),
+    );
   }
 }

@@ -7,6 +7,8 @@ import 'package:actual/restaurant/component/restaurant_card.dart';
 import 'package:actual/restaurant/model/restaurant_detail_model.dart';
 import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:actual/restaurant/provider/restaurant_provider.dart';
+import 'package:actual/restaurant/provider/restaurant_rating_provider.dart';
+import 'package:actual/restaurant/repository/restaurant_rating_repository.dart';
 import 'package:actual/restaurant/repository/restaurant_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,9 @@ class _RestaurantDetailScreenState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(restaurantDetailProvider(widget.id));
+    final ratingsState = ref.watch(restaurantRatingProvider(widget.id));
+
+    print(ratingsState);
 
     if (state == null) {
       return DefaultLayout(
@@ -60,13 +65,18 @@ class _RestaurantDetailScreenState
             renderProducts(
               products: state.products,
             ),
-          SliverToBoxAdapter(
-            child: RatingCard(
-              avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
-              images: [],
-              rating: 4,
-              email: 'jc@codefactory.ai',
-              content: '맛있습니다\nsdfsfsdgfsgewteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+          SliverPadding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.0,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: RatingCard(
+                avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
+                images: [],
+                rating: 4,
+                email: 'jc@codefactory.ai',
+                content: '맛있습니다',
+              ),
             ),
           ),
         ],
