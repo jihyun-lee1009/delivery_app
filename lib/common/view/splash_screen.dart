@@ -1,8 +1,8 @@
-import 'package:actual/common/component/view/root_tab.dart';
 import 'package:actual/common/const/colors.dart';
 import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/common/secure_storage/secure_storage.dart';
+import 'package:actual/common/view/root_tab.dart';
 import 'package:actual/user/view/login_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
